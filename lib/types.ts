@@ -1,4 +1,4 @@
-export type SalesOrgCode = "IA01" | "BA01" | "PT01"
+export type SalesOrgCode = "IA01" | "IA02" | "BA01" | "BA02" | "PT01" | "PT02"
 
 export type BusinessUnit = {
   code: "IA" | "BA" | "PT"
@@ -13,11 +13,12 @@ export type SalesOrg = {
   code: SalesOrgCode
   name: string
   businessUnit: BusinessUnit["code"]
-  currency: "USD" | "EUR" | "GBP"
+  currency: "USD" | "EUR" | "GBP" | "SGD"
   distributionChannel: string
   division: string
-  erp: "SAP BRP900 (ECC)" | "SAP CIP300"
+  erp: "SAP BRP900 (ECC)" | "SAP CIP300" | "SAP S/4HANA"
   cpq: "Salesforce CPQ" | "SAP CPQ"
+  region: "North America" | "EMEA" | "APAC" | "LATAM" | "Global"
 }
 
 export type Address = {

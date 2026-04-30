@@ -15,6 +15,7 @@ export const products: Product[] = [
     tags: ["DCS", "Experion", "Redundant"],
     availability: [
       { salesOrg: "IA01", listPrice: 12450, leadTimeDays: 21, inStock: true, minOrderQty: 1 },
+      { salesOrg: "IA02", listPrice: 11680, leadTimeDays: 28, inStock: true, minOrderQty: 1 },
       { salesOrg: "PT01", listPrice: 12990, leadTimeDays: 28, inStock: true, minOrderQty: 1 },
     ],
   },
@@ -31,6 +32,7 @@ export const products: Product[] = [
     tags: ["HART", "Field Instrument"],
     availability: [
       { salesOrg: "IA01", listPrice: 3210, leadTimeDays: 10, inStock: true, minOrderQty: 1 },
+      { salesOrg: "IA02", listPrice: 3050, leadTimeDays: 14, inStock: true, minOrderQty: 1 },
     ],
   },
   {
@@ -46,6 +48,7 @@ export const products: Product[] = [
     tags: ["Wireless", "Predictive Maintenance"],
     availability: [
       { salesOrg: "IA01", listPrice: 1180, leadTimeDays: 7, inStock: true, minOrderQty: 5 },
+      { salesOrg: "IA02", listPrice: 1110, leadTimeDays: 10, inStock: true, minOrderQty: 5 },
     ],
   },
   {
@@ -61,6 +64,7 @@ export const products: Product[] = [
     tags: ["SaaS", "Subscription"],
     availability: [
       { salesOrg: "IA01", listPrice: 48000, leadTimeDays: 1, inStock: true, minOrderQty: 1 },
+      { salesOrg: "IA02", listPrice: 45200, leadTimeDays: 1, inStock: true, minOrderQty: 1 },
       { salesOrg: "PT01", listPrice: 52000, leadTimeDays: 1, inStock: true, minOrderQty: 1 },
     ],
   },
@@ -77,6 +81,39 @@ export const products: Product[] = [
     tags: ["Service", "Engineering"],
     availability: [
       { salesOrg: "IA01", listPrice: 1850, leadTimeDays: 14, inStock: true, minOrderQty: 1 },
+      { salesOrg: "IA02", listPrice: 1740, leadTimeDays: 14, inStock: true, minOrderQty: 1 },
+    ],
+  },
+  {
+    id: "p-ia-06",
+    sku: "IA-RTU-2020-LX",
+    name: "RTU 2020 LX Remote Terminal Unit",
+    shortDescription: "Linux-based RTU for SCADA at unmanned sites.",
+    description:
+      "Hardened Linux RTU for oil & gas, water and pipeline SCADA. Cellular, Ethernet and serial connectivity with edge computing.",
+    category: "SCADA",
+    icon: "Radio",
+    type: "Hardware",
+    tags: ["SCADA", "Edge"],
+    availability: [
+      { salesOrg: "IA01", listPrice: 4120, leadTimeDays: 14, inStock: true, minOrderQty: 1 },
+      { salesOrg: "IA02", listPrice: 3920, leadTimeDays: 21, inStock: true, minOrderQty: 1 },
+    ],
+  },
+  {
+    id: "p-ia-07",
+    sku: "IA-FLW-CORIO-G3",
+    name: "Coriolis Flowmeter G3",
+    shortDescription: "High-accuracy mass flow meter for custody transfer.",
+    description:
+      "Coriolis mass flowmeter delivering 0.05% accuracy for custody transfer applications across hydrocarbons and chemicals.",
+    category: "Field Instruments",
+    icon: "Gauge",
+    type: "Standard",
+    tags: ["Custody Transfer", "Flow"],
+    availability: [
+      { salesOrg: "IA01", listPrice: 8950, leadTimeDays: 28, inStock: true, minOrderQty: 1 },
+      { salesOrg: "IA02", listPrice: 8340, leadTimeDays: 35, inStock: true, minOrderQty: 1 },
     ],
   },
 
@@ -94,6 +131,7 @@ export const products: Product[] = [
     tags: ["BACnet", "HVAC"],
     availability: [
       { salesOrg: "BA01", listPrice: 320, leadTimeDays: 5, inStock: true, minOrderQty: 1 },
+      { salesOrg: "BA02", listPrice: 305, leadTimeDays: 7, inStock: true, minOrderQty: 1 },
     ],
   },
   {
@@ -109,6 +147,7 @@ export const products: Product[] = [
     tags: ["BACnet", "VAV"],
     availability: [
       { salesOrg: "BA01", listPrice: 540, leadTimeDays: 5, inStock: true, minOrderQty: 4 },
+      { salesOrg: "BA02", listPrice: 510, leadTimeDays: 7, inStock: true, minOrderQty: 4 },
     ],
   },
   {
@@ -124,6 +163,7 @@ export const products: Product[] = [
     tags: ["Fire", "Life Safety"],
     availability: [
       { salesOrg: "BA01", listPrice: 4850, leadTimeDays: 14, inStock: true, minOrderQty: 1 },
+      { salesOrg: "BA02", listPrice: 4620, leadTimeDays: 21, inStock: true, minOrderQty: 1 },
     ],
   },
   {
@@ -139,6 +179,7 @@ export const products: Product[] = [
     tags: ["Niagara", "BMS"],
     availability: [
       { salesOrg: "BA01", listPrice: 6900, leadTimeDays: 1, inStock: true, minOrderQty: 1 },
+      { salesOrg: "BA02", listPrice: 6480, leadTimeDays: 1, inStock: true, minOrderQty: 1 },
     ],
   },
   {
@@ -154,6 +195,39 @@ export const products: Product[] = [
     tags: ["Access Control", "Security"],
     availability: [
       { salesOrg: "BA01", listPrice: 1620, leadTimeDays: 7, inStock: true, minOrderQty: 1 },
+      { salesOrg: "BA02", listPrice: 1540, leadTimeDays: 10, inStock: true, minOrderQty: 1 },
+    ],
+  },
+  {
+    id: "p-ba-06",
+    sku: "BA-SEN-CO2-W900",
+    name: "CO2 / Occupancy Sensor W900",
+    shortDescription: "Wall-mount IAQ sensor for demand-controlled ventilation.",
+    description:
+      "Indoor air quality sensor measuring CO2, temperature, humidity and occupancy with BACnet output for DCV strategies.",
+    category: "HVAC Controls",
+    icon: "Activity",
+    type: "Standard",
+    tags: ["IAQ", "BACnet"],
+    availability: [
+      { salesOrg: "BA01", listPrice: 410, leadTimeDays: 5, inStock: true, minOrderQty: 4 },
+      { salesOrg: "BA02", listPrice: 390, leadTimeDays: 7, inStock: true, minOrderQty: 4 },
+    ],
+  },
+  {
+    id: "p-ba-07",
+    sku: "BA-SVC-COMM-BMS",
+    name: "BMS Commissioning Package",
+    shortDescription: "Building management system commissioning services.",
+    description:
+      "Field commissioning services for BMS deployments including point-to-point checkout, sequence verification and turnover documentation.",
+    category: "Services",
+    icon: "Wrench",
+    type: "Service",
+    tags: ["Service", "Commissioning"],
+    availability: [
+      { salesOrg: "BA01", listPrice: 1450, leadTimeDays: 10, inStock: true, minOrderQty: 1 },
+      { salesOrg: "BA02", listPrice: 1380, leadTimeDays: 14, inStock: true, minOrderQty: 1 },
     ],
   },
 
@@ -171,6 +245,7 @@ export const products: Product[] = [
     tags: ["FCC", "Refining"],
     availability: [
       { salesOrg: "PT01", listPrice: 38, leadTimeDays: 30, inStock: true, minOrderQty: 1000 },
+      { salesOrg: "PT02", listPrice: 41, leadTimeDays: 45, inStock: true, minOrderQty: 1000 },
     ],
   },
   {
@@ -186,6 +261,7 @@ export const products: Product[] = [
     tags: ["Adsorbent", "Gas Treatment"],
     availability: [
       { salesOrg: "PT01", listPrice: 920, leadTimeDays: 21, inStock: true, minOrderQty: 4 },
+      { salesOrg: "PT02", listPrice: 980, leadTimeDays: 28, inStock: true, minOrderQty: 4 },
     ],
   },
   {
@@ -201,6 +277,39 @@ export const products: Product[] = [
     tags: ["License", "Engineering"],
     availability: [
       { salesOrg: "PT01", listPrice: 1250000, leadTimeDays: 90, inStock: true, minOrderQty: 1 },
+      { salesOrg: "PT02", listPrice: 1320000, leadTimeDays: 90, inStock: true, minOrderQty: 1 },
+    ],
+  },
+  {
+    id: "p-pt-04",
+    sku: "PT-CAT-HYDRO-Z9",
+    name: "Hydrocracking Catalyst Z9 (per kg)",
+    shortDescription: "Hydrocracking catalyst for distillate maximization.",
+    description:
+      "High-activity hydrocracking catalyst optimized for distillate maximization with extended cycle length and low hydrogen consumption.",
+    category: "Catalysts",
+    icon: "Droplets",
+    type: "Standard",
+    tags: ["Hydrocracking", "Refining"],
+    availability: [
+      { salesOrg: "PT01", listPrice: 62, leadTimeDays: 45, inStock: true, minOrderQty: 2000 },
+      { salesOrg: "PT02", listPrice: 67, leadTimeDays: 60, inStock: true, minOrderQty: 2000 },
+    ],
+  },
+  {
+    id: "p-pt-05",
+    sku: "PT-SW-UNISIM-DESIGN",
+    name: "UniSim Design Suite License",
+    shortDescription: "Process simulation software for refining and chemicals.",
+    description:
+      "Steady-state and dynamic process simulation software for refining, gas processing and petrochemicals engineering workflows.",
+    category: "Process Software",
+    icon: "Zap",
+    type: "Software",
+    tags: ["Simulation", "License"],
+    availability: [
+      { salesOrg: "PT01", listPrice: 28500, leadTimeDays: 1, inStock: true, minOrderQty: 1 },
+      { salesOrg: "PT02", listPrice: 30200, leadTimeDays: 1, inStock: true, minOrderQty: 1 },
     ],
   },
 ]

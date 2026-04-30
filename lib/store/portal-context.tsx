@@ -14,7 +14,7 @@ type PortalContextValue = {
   /** Default sales org used to seed product list price */
   defaultSalesOrg: SalesOrgCode
   /** Currency tied to the default sales org */
-  currency: "USD" | "EUR" | "GBP"
+  currency: "USD" | "EUR" | "GBP" | "SGD"
   isAuthenticated: boolean
   setAuthenticated: (b: boolean) => void
 }
