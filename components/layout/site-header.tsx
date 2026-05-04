@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Building2, ChevronDown, ShoppingCart, User2, Zap } from "lucide-react"
+import { Package, ChevronDown, ShoppingCart, User2, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -17,6 +17,7 @@ import { useCart } from "@/lib/store/cart-context"
 import { cn } from "@/lib/utils"
 import { SalesOrgBadge } from "@/components/product/sales-org-badge"
 import { Badge } from "@/components/ui/badge"
+import { useState } from "react"
 
 const nav = [
   { href: "/products", label: "Products" },
@@ -31,21 +32,24 @@ export function SiteHeader() {
   const pathname = usePathname()
   const { customer, activeSoldTo, setActiveSoldToId, currency, defaultSalesOrg } = usePortal()
   const { totalItems } = useCart()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded-md bg-primary text-primary-foreground">
-            <Zap className="h-4 w-4" />
-          </span>
-          <div className="leading-tight">
-            <div className="text-sm font-semibold tracking-tight">Unified Commerce</div>
-            <div className="text-[11px] uppercase tracking-wider text-muted-foreground">B2B Portal</div>
+    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-8 px-4 md:px-6">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-semibold text-sm">
+            UC
+          </div>
+          <div className="hidden sm:flex flex-col leading-tight">
+            <div className="text-sm font-semibold text-foreground">Unified</div>
+            <div className="text-[10px] text-muted-foreground">Commerce</div>
           </div>
         </Link>
 
-        <nav className="ml-6 hidden items-center gap-1 lg:flex">
+        {/* Main Navigation */}
+        <nav className="hidden lg:flex items-center gap-1">
           {nav.map((item) => {
             const active = pathname === item.href || pathname.startsWith(item.href + "/")
             return (
@@ -53,8 +57,10 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground",
-                  active && "bg-secondary text-foreground",
+                  "px-3 py-2 text-sm font-medium transition-colors rounded-md",
+                  active 
+                    ? "text-foreground bg-secondary" 
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                 )}
               >
                 {item.label}
@@ -63,31 +69,35 @@ export function SiteHeader() {
           })}
         </nav>
 
+        {/* Spacer */}
+        <div className="flex-1 md:hidden" />
+
+        {/* Right Section */}
         <div className="ml-auto flex items-center gap-2">
-          {/* Sold-to switcher */}
+          {/* Sold-to switcher - Hidden on mobile */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="hidden gap-2 md:inline-flex">
-                <Building2 className="h-4 w-4" />
-                <span className="max-w-[160px] truncate">{activeSoldTo.name}</span>
-                <Badge variant="secondary" className="ml-1 font-mono text-[10px]">
+              <Button variant="outline" size="sm" className="hidden gap-2 xl:inline-flex">
+                <Package className="h-4 w-4" />
+                <span className="max-w-[140px] truncate text-xs">{activeSoldTo.name}</span>
+                <Badge variant="secondary" className="ml-1 font-mono text-[9px]">
                   {activeSoldTo.id}
                 </Badge>
-                <ChevronDown className="h-4 w-4" />
+                <ChevronDown className="h-3.5 w-3.5 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-80">
-              <DropdownMenuLabel>Switch Sold-to</DropdownMenuLabel>
+            <DropdownMenuContent align="end" className="w-72">
+              <DropdownMenuLabel className="text-xs uppercase tracking-wider text-muted-foreground">Switch Sold-to</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {customer.soldTos.map((s) => (
                 <DropdownMenuItem
                   key={s.id}
                   onClick={() => setActiveSoldToId(s.id)}
-                  className="flex flex-col items-start gap-1 py-2"
+                  className="flex flex-col items-start gap-1.5 py-2 cursor-pointer"
                 >
                   <div className="flex w-full items-center justify-between gap-2">
-                    <span className="font-medium">{s.name}</span>
-                    <span className="font-mono text-[10px] text-muted-foreground">{s.id}</span>
+                    <span className="text-sm font-medium text-foreground">{s.name}</span>
+                    <span className="font-mono text-[9px] text-muted-foreground">{s.id}</span>
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {s.salesOrgs.map((so) => (
@@ -99,37 +109,38 @@ export function SiteHeader() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Currency / default sales org */}
-          <div className="hidden items-center gap-2 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs md:flex">
-            <span className="text-muted-foreground">Default</span>
+          {/* Currency info - Hidden on mobile */}
+          <div className="hidden lg:flex items-center gap-2 rounded-lg border border-border bg-secondary/50 px-3 py-2 text-xs">
+            <span className="text-muted-foreground">Default:</span>
             <SalesOrgBadge code={defaultSalesOrg} />
-            <span className="font-mono font-semibold">{currency}</span>
+            <span className="font-mono font-semibold text-foreground">{currency}</span>
           </div>
 
           {/* Cart */}
           <Button asChild variant="outline" size="sm" className="relative gap-2">
             <Link href="/cart">
               <ShoppingCart className="h-4 w-4" />
-              <span className="hidden sm:inline">Cart</span>
+              <span className="hidden sm:inline text-xs">Cart</span>
               {totalItems > 0 && (
-                <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-[10px] font-semibold text-primary-foreground">
+                <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
                   {totalItems}
                 </span>
               )}
             </Link>
           </Button>
 
-          {/* User */}
+          {/* User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Account">
+              <Button variant="outline" size="sm" className="gap-2">
                 <User2 className="h-4 w-4" />
+                <span className="hidden sm:inline text-xs">Account</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
-              <DropdownMenuLabel>
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium">{customer.name}</span>
+              <DropdownMenuLabel className="pb-2">
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-sm font-semibold text-foreground">{customer.name}</span>
                   <span className="text-xs text-muted-foreground">{customer.email}</span>
                   <span className="mt-1 text-[10px] uppercase tracking-wider text-muted-foreground">
                     Persona: {customer.persona}
@@ -137,14 +148,51 @@ export function SiteHeader() {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild><Link href="/portal">Portal Login Demo</Link></DropdownMenuItem>
-              <DropdownMenuItem asChild><Link href="/orders">Order History</Link></DropdownMenuItem>
-              <DropdownMenuItem asChild><Link href="/quotes">Quote History</Link></DropdownMenuItem>
-              <DropdownMenuItem asChild><Link href="/comparison">Old vs New Flow</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link href="/portal" className="text-xs">Portal Login Demo</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link href="/orders" className="text-xs">Order History</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link href="/quotes" className="text-xs">Quote History</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link href="/comparison" className="text-xs">Old vs New Flow</Link></DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          {/* Mobile menu toggle */}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="lg:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </Button>
         </div>
       </div>
+
+      {/* Mobile Navigation */}
+      {mobileMenuOpen && (
+        <div className="border-t border-border bg-background px-4 py-3 lg:hidden">
+          <nav className="flex flex-col gap-1">
+            {nav.map((item) => {
+              const active = pathname === item.href || pathname.startsWith(item.href + "/")
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "px-3 py-2 text-sm font-medium transition-colors rounded-md",
+                    active 
+                      ? "text-foreground bg-secondary" 
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                  )}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
+          </nav>
+        </div>
+      )}
     </header>
   )
 }
+

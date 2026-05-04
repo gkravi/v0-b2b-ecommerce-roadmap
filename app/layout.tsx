@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#E5231C",
+  themeColor: "#5b3be3",
   width: "device-width",
   initialScale: 1,
 }
@@ -35,7 +35,11 @@ export default function RootLayout({
           <CartProvider>
             <div className="flex min-h-screen flex-col">
               <SiteHeader />
-              <main className="flex-1">{children}</main>
+              <main className="flex-1">
+                <div className="mx-auto w-full max-w-7xl">
+                  {children}
+                </div>
+              </main>
               <SiteFooter />
             </div>
             <Toaster richColors position="top-right" />
