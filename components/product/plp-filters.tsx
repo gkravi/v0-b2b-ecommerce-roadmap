@@ -1,10 +1,9 @@
 "use client"
 
 import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
 import type { Product, SalesOrgCode } from "@/lib/types"
 import { SalesOrgBadge } from "@/components/product/sales-org-badge"
+import { cn } from "@/lib/utils"
 
 export type PLPFilters = {
   salesOrgs: SalesOrgCode[]
@@ -51,65 +50,118 @@ export function PLPFiltersPanel({
   }
 
   return (
-    <aside className="sticky top-20 flex h-fit flex-col gap-5 rounded-lg border border-border bg-card p-5">
-      <div>
-        <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Sales organization
-        </div>
-        <div className="flex flex-col gap-2">
-          {availableSalesOrgs.map((code) => (
-            <label key={code} className="flex cursor-pointer items-center gap-2">
-              <Checkbox
-                checked={filters.salesOrgs.includes(code)}
-                onCheckedChange={() => toggleSalesOrg(code)}
-              />
-              <SalesOrgBadge code={code} variant="dot" />
-            </label>
-          ))}
-        </div>
-        <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
-          Show materials available to the selected sales orgs only. With none selected, all sales
-          orgs the customer is entitled to are shown.
-        </p>
+    <aside className="sticky top-20 flex h-fit flex-col rounded-xl border border-border bg-card overflow-hidden">
+      {/* Header */}
+      <div className="px-5 py-4 border-b border-border bg-secondary/30">
+        <h3 className="text-sm font-semibold text-foreground">Filters</h3>
       </div>
 
-      <Separator />
+      {/* Filter Sections */}
+      <div className="flex flex-col">
+        {/* Sales Organization */}
+        <FilterSection
+          title="Sales Organization"
+          description="Filter by available sales orgs"
+        >
+          <div className="flex flex-col gap-2.5">
+            {availableSalesOrgs.map((code) => (
+              <label 
+                key={code} 
+                className={cn(
+                  "flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 transition-colors",
+                  "hover:bg-secondary/50",
+                  filters.salesOrgs.includes(code) && "bg-secondary"
+                )}
+              >
+                <Checkbox
+                  checked={filters.salesOrgs.includes(code)}
+                  onCheckedChange={() => toggleSalesOrg(code)}
+                  className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                />
+                <SalesOrgBadge code={code} variant="dot" />
+              </label>
+            ))}
+          </div>
+        </FilterSection>
 
-      <div>
-        <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Product type
-        </div>
-        <div className="flex flex-col gap-2">
-          {allTypes.map((t) => (
-            <label key={t} className="flex cursor-pointer items-center gap-2 text-sm">
-              <Checkbox
-                checked={filters.types.includes(t)}
-                onCheckedChange={() => toggleType(t)}
-              />
-              <span>{t}</span>
-            </label>
-          ))}
-        </div>
-      </div>
+        {/* Product Type */}
+        <FilterSection title="Product Type">
+          <div className="flex flex-col gap-2">
+            {allTypes.map((t) => (
+              <label 
+                key={t} 
+                className={cn(
+                  "flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors text-sm",
+                  "hover:bg-secondary/50",
+                  filters.types.includes(t) && "bg-secondary"
+                )}
+              >
+                <Checkbox
+                  checked={filters.types.includes(t)}
+                  onCheckedChange={() => toggleType(t)}
+                  className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                />
+                <span className="text-foreground">{t}</span>
+              </label>
+            ))}
+          </div>
+        </FilterSection>
 
-      <Separator />
-
-      <div>
-        <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Category
-        </div>
-        <div className="flex flex-col gap-2">
-          {allCategories.map((c) => (
-            <label key={c} className="flex cursor-pointer items-center gap-2 text-sm">
-              <Checkbox
-                checked={filters.categories.includes(c)}
-                onCheckedChange={() => toggleCategory(c)}
-              />
-              <span>{c}</span>
-            </label>
-          ))}
-        </div>
+        {/* Category */}
+        <FilterSection title="Category" isLast>
+          <div className="flex flex-col gap-2">
+            {allCategories.map((c) => (
+              <label 
+                key={c} 
+                className={cn(
+                  "flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors text-sm",
+                  "hover:bg-secondary/50",
+                  filters.categories.includes(c) && "bg-secondary"
+                )}
+              >
+                <Checkbox
+                  checked={filters.categories.includes(c)}
+                  onCheckedChange={() => toggleCategory(c)}
+                  className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                />
+                <span className="text-foreground">{c}</span>
+              </label>
+            ))}
+          </div>
+        </FilterSection>
       </div>
     </aside>
+  )
+}
+
+// Reusable filter section component - Untitled UI collapsible style
+function FilterSection({
+  title,
+  description,
+  children,
+  isLast = false,
+}: {
+  title: string
+  description?: string
+  children: React.ReactNode
+  isLast?: boolean
+}) {
+  return (
+    <div className={cn(
+      "px-5 py-4",
+      !isLast && "border-b border-border"
+    )}>
+      <div className="mb-3">
+        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          {title}
+        </h4>
+        {description && (
+          <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed">
+            {description}
+          </p>
+        )}
+      </div>
+      {children}
+    </div>
   )
 }
