@@ -119,7 +119,7 @@ export function SiteHeader() {
           {/* Cart */}
           <Button asChild variant="outline" size="sm" className="relative gap-2">
             <Link href="/cart">
-              <ShoppingCart01 className="h-4 w-4" />
+              <ShoppingCart01 className="size-4" />
               <span className="hidden sm:inline text-xs">Cart</span>
               {totalItems > 0 && (
                 <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
@@ -133,7 +133,7 @@ export function SiteHeader() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2">
-                <User01 className="h-4 w-4" />
+                <User01 className="size-4" />
                 <span className="hidden sm:inline text-xs">Account</span>
               </Button>
             </DropdownMenuTrigger>
@@ -162,7 +162,7 @@ export function SiteHeader() {
             className="lg:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? <Close className="h-4 w-4" /> : <Menu01 className="h-4 w-4" />}
+            {mobileMenuOpen ? <XClose className="size-4" /> : <Menu01 className="size-4" />}
           </Button>
         </div>
       </div>

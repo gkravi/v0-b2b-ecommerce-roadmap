@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Github01, Linkedin01, Twitter01 } from "@untitledui/icons"
+import { BrandGithub, BrandLinkedin, BrandX } from "@untitledui/icons"
 
 const footerLinks = [
   {
@@ -94,7 +94,7 @@ export function SiteFooter() {
                 className="inline-flex items-center justify-center h-8 w-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 aria-label="GitHub"
               >
-                <Github01 className="h-4 w-4" />
+                <BrandGithub className="size-4" />
               </a>
               <a
                 href="#"
@@ -103,7 +103,7 @@ export function SiteFooter() {
                 className="inline-flex items-center justify-center h-8 w-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 aria-label="LinkedIn"
               >
-                <Linkedin01 className="h-4 w-4" />
+                <BrandLinkedin className="size-4" />
               </a>
               <a
                 href="#"
@@ -112,7 +112,7 @@ export function SiteFooter() {
                 className="inline-flex items-center justify-center h-8 w-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 aria-label="Twitter"
               >
-                <Twitter01 className="h-4 w-4" />
+                <BrandX className="size-4" />
               </a>
             </div>
           </div>
