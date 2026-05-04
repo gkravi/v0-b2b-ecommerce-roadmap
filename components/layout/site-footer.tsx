@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { BrandGithub, BrandLinkedin, BrandX } from "@untitledui/icons"
+import { Github, Linkedin, Twitter } from "lucide-react"
 
 const footerLinks = [
   {
@@ -112,7 +112,7 @@ export function SiteFooter() {
                 className="inline-flex items-center justify-center h-8 w-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 aria-label="Twitter"
               >
-                <BrandX className="size-4" />
+                <BrandTwitter className="size-4" />
               </a>
             </div>
           </div>
