@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Package, ChevronDown, ShoppingCart, User2, Menu, X } from "lucide-react"
+import { Building07, ChevronDown, ShoppingCart01, User01, Menu01, XClose } from "@untitledui/icons"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -78,12 +78,12 @@ export function SiteHeader() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="hidden gap-2 xl:inline-flex">
-                <Package className="h-4 w-4" />
+                <Building07 className="size-4" />
                 <span className="max-w-[140px] truncate text-xs">{activeSoldTo.name}</span>
                 <Badge variant="secondary" className="ml-1 font-mono text-[9px]">
                   {activeSoldTo.id}
                 </Badge>
-                <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+                <ChevronDown className="size-3.5 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-72">
@@ -119,7 +119,7 @@ export function SiteHeader() {
           {/* Cart */}
           <Button asChild variant="outline" size="sm" className="relative gap-2">
             <Link href="/cart">
-              <ShoppingCart className="h-4 w-4" />
+              <ShoppingCart01 className="h-4 w-4" />
               <span className="hidden sm:inline text-xs">Cart</span>
               {totalItems > 0 && (
                 <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
@@ -133,7 +133,7 @@ export function SiteHeader() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2">
-                <User2 className="h-4 w-4" />
+                <User01 className="h-4 w-4" />
                 <span className="hidden sm:inline text-xs">Account</span>
               </Button>
             </DropdownMenuTrigger>
@@ -162,7 +162,7 @@ export function SiteHeader() {
             className="lg:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            {mobileMenuOpen ? <Close className="h-4 w-4" /> : <Menu01 className="h-4 w-4" />}
           </Button>
         </div>
       </div>

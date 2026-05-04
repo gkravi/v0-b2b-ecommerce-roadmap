@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Github, Linkedin, Twitter } from "lucide-react"
+import { Github01, Linkedin01, Twitter01 } from "@untitledui/icons"
 
 const footerLinks = [
   {
@@ -94,7 +94,7 @@ export function SiteFooter() {
                 className="inline-flex items-center justify-center h-8 w-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 aria-label="GitHub"
               >
-                <Github className="h-4 w-4" />
+                <Github01 className="h-4 w-4" />
               </a>
               <a
                 href="#"
@@ -103,7 +103,7 @@ export function SiteFooter() {
                 className="inline-flex items-center justify-center h-8 w-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 aria-label="LinkedIn"
               >
-                <Linkedin className="h-4 w-4" />
+                <Linkedin01 className="h-4 w-4" />
               </a>
               <a
                 href="#"
@@ -112,7 +112,7 @@ export function SiteFooter() {
                 className="inline-flex items-center justify-center h-8 w-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 aria-label="Twitter"
               >
-                <Twitter className="h-4 w-4" />
+                <Twitter01 className="h-4 w-4" />
               </a>
             </div>
           </div>
