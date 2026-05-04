@@ -80,10 +80,12 @@ export default function ArchitecturePage() {
             <Badge variant="secondary" className="mb-5 gap-1.5">
               <Sparkles className="h-3 w-3" /> MACH Reference Architecture
             </Badge>
-            <h1 className="text-balance text-4xl font-bold tracking-tight md:text-6xl">
-              From a fragmented stack to one composable commerce fabric.
-            </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
+            <div className="not-prose">
+              <h1 className="text-balance text-4xl font-bold tracking-tight md:text-6xl">
+                From a fragmented stack to one composable commerce fabric.
+              </h1>
+            </div>
+            <p className="prose prose-lg mx-auto mt-5 max-w-2xl text-pretty leading-relaxed text-muted-foreground dark:prose-invert">
               A single API-first platform that converges the storefront and the
               backoffice. Every sales org, every persona, every channel — fed by
               the same domain services.
@@ -300,7 +302,7 @@ export default function ArchitecturePage() {
                   </div>
                 </div>
                 <div className="text-base font-semibold">{p.title}</div>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
+                <p className="prose prose-sm mt-1 text-muted-foreground dark:prose-invert max-w-none">{p.desc}</p>
               </motion.div>
             ))}
           </div>

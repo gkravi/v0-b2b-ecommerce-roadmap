@@ -85,8 +85,8 @@ export default function HomePage() {
               <span className="text-primary">Every business.</span>{" "}
               One unified B2B journey.
             </h1>
-            <p className="max-w-xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
-              ACME Industries' buyer Priya purchases across Industrial Automation, Building
+            <p className="prose prose-base max-w-xl text-pretty leading-relaxed text-muted-foreground dark:prose-invert md:prose-lg">
+              ACME Industries&apos; buyer Priya purchases across Industrial Automation, Building
               Automation and Process Technology. Today that means three SAP Commerce storefronts,
               three logins and three carts. This demo shows the unified MACH journey that replaces
               all of it &mdash; without disrupting back-office process per business.
@@ -178,9 +178,9 @@ export default function HomePage() {
           <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl">
             What this demo covers
           </h2>
-          <p className="max-w-3xl text-pretty text-muted-foreground">
+          <p className="prose prose-sm max-w-3xl text-pretty text-muted-foreground dark:prose-invert">
             Click into any tile to walk a real screen. Every page uses dummy data designed to mimic
-            the real Honeywell scenario described &mdash; multi-soldto, multi-salesorg, split cart,
+            the real scenario described &mdash; multi-soldto, multi-salesorg, split cart,
             split order, dual CPQ approvals, and converged order/quote history.
           </p>
         </div>

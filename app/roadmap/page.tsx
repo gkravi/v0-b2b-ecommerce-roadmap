@@ -215,9 +215,11 @@ export default function RoadmapPage() {
             <Badge variant="secondary" className="mb-5 gap-1.5">
               <Rocket className="h-3 w-3" /> 18-month MACH adoption plan
             </Badge>
-            <h1 className="text-balance text-4xl font-bold tracking-tight md:text-6xl">
-              A phased roadmap with business benefits at every milestone.
-            </h1>
+            <div className="prose prose-lg mx-auto dark:prose-invert not-prose">
+              <h1 className="text-balance text-4xl font-bold tracking-tight md:text-6xl">
+                A phased roadmap with business benefits at every milestone.
+              </h1>
+            </div>
             <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
               Six phases, each shipping standalone value. We never ask the
               business to wait 18 months for the payoff — every quarter
@@ -307,7 +309,7 @@ export default function RoadmapPage() {
                         </div>
                       </div>
 
-                      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{p.goal}</p>
+                      <p className="prose prose-sm mt-4 text-muted-foreground dark:prose-invert max-w-none">{p.goal}</p>
 
                       <div className="mt-5 grid gap-4 sm:grid-cols-2">
                         <div>
@@ -385,7 +387,7 @@ export default function RoadmapPage() {
                   <g.icon className="h-4 w-4" />
                 </div>
                 <div className="mt-3 text-base font-semibold">{g.title}</div>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{g.desc}</p>
+                <p className="prose prose-sm mt-1 text-muted-foreground dark:prose-invert max-w-none">{g.desc}</p>
               </motion.div>
             ))}
           </div>
