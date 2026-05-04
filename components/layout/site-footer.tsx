@@ -94,7 +94,7 @@ export function SiteFooter() {
                 className="inline-flex items-center justify-center h-8 w-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 aria-label="GitHub"
               >
-                <BrandGithub className="size-4" />
+                <Github className="size-4" />
               </a>
               <a
                 href="#"
@@ -103,7 +103,7 @@ export function SiteFooter() {
                 className="inline-flex items-center justify-center h-8 w-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 aria-label="LinkedIn"
               >
-                <BrandLinkedin className="size-4" />
+                <Linkedin className="size-4" />
               </a>
               <a
                 href="#"
@@ -112,7 +112,7 @@ export function SiteFooter() {
                 className="inline-flex items-center justify-center h-8 w-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 aria-label="Twitter"
               >
-                <BrandTwitter className="size-4" />
+                <Twitter className="size-4" />
               </a>
             </div>
           </div>
