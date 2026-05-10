@@ -40,6 +40,7 @@ const navItems: NavItem[] = [
   },
   { href: "/architecture", label: "Architecture" },
   { href: "/roadmap",      label: "Roadmap" },
+  { href: "/admin",        label: "Admin" },
 ]
 
 /* ──────────────────────── SiteHeader ────────────────────────── */
