@@ -1,70 +1,52 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import Link from "next/link"
+import { signIn } from "next-auth/react"
 import { Lock, Mail01, ArrowRight } from "@untitledui/icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { createClient } from "@/lib/supabase/client"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [isOktaLoading, setIsOktaLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const router = useRouter()
   const searchParams = useSearchParams()
-  const redirect = searchParams.get("redirect") ?? "/"
-  const supabase = createClient()
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/"
+  const authError = searchParams.get("error")
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleOktaLogin = async () => {
+    setIsOktaLoading(true)
+    setError(null)
+    try {
+      await signIn("okta", { callbackUrl })
+    } catch {
+      setError("Failed to initiate Okta login")
+      setIsOktaLoading(false)
+    }
+  }
+
+  const handleDemoLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError(null)
 
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-
-      if (error) {
-        setError(error.message)
-        return
-      }
-
-      router.push(redirect)
-      router.refresh()
-    } catch {
-      setError("An unexpected error occurred")
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const handleOktaLogin = () => {
-    // Redirect to Okta login
-    // In production, this would use the Okta SDK or redirect to Okta
-    const oktaDomain = process.env.NEXT_PUBLIC_OKTA_DOMAIN
-    const clientId = process.env.NEXT_PUBLIC_OKTA_CLIENT_ID
-    const redirectUri = `${window.location.origin}/auth/callback`
-    
-    if (oktaDomain && clientId) {
-      const oktaUrl = `https://${oktaDomain}/oauth2/default/v1/authorize?` +
-        `client_id=${clientId}` +
-        `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-        `&response_type=code` +
-        `&scope=openid profile email` +
-        `&state=${encodeURIComponent(redirect)}`
-      
-      window.location.href = oktaUrl
+    // For demo purposes, we'll redirect to the app
+    // In production, this would validate against Supabase auth
+    if (email && password) {
+      // Simulate login delay
+      await new Promise(resolve => setTimeout(resolve, 500))
+      window.location.href = callbackUrl
     } else {
-      setError("Okta is not configured. Please use email/password login.")
+      setError("Please enter email and password")
     }
+    setIsLoading(false)
   }
 
   return (
@@ -80,11 +62,19 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          {/* Error Messages */}
+          {(error || authError) && (
+            <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+              {error || (authError === "OAuthCallback" ? "Authentication failed. Please try again." : authError)}
+            </div>
+          )}
+
           {/* Okta SSO Button */}
           <Button 
             variant="outline" 
-            className="w-full gap-2"
+            className="w-full gap-2 h-11"
             onClick={handleOktaLogin}
+            disabled={isOktaLoading}
           >
             <svg className="size-5" viewBox="0 0 24 24" fill="none">
               <path 
@@ -92,24 +82,18 @@ export default function LoginPage() {
                 fill="currentColor"
               />
             </svg>
-            Continue with Okta SSO
+            {isOktaLoading ? "Redirecting to Okta..." : "Continue with Okta SSO"}
           </Button>
 
           <div className="relative">
             <Separator />
             <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground">
-              or continue with email
+              or use demo credentials
             </span>
           </div>
 
-          {/* Email/Password Form */}
-          <form onSubmit={handleLogin} className="space-y-4">
-            {error && (
-              <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
-                {error}
-              </div>
-            )}
-
+          {/* Demo Email/Password Form */}
+          <form onSubmit={handleDemoLogin} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
@@ -117,7 +101,7 @@ export default function LoginPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="you@company.com"
+                  placeholder="priya.kumar@acme.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-9"
@@ -129,12 +113,9 @@ export default function LoginPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
-                <Link 
-                  href="/auth/forgot-password" 
-                  className="text-xs text-primary hover:underline"
-                >
-                  Forgot password?
-                </Link>
+                <span className="text-xs text-muted-foreground">
+                  Demo: any password works
+                </span>
               </div>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
@@ -151,14 +132,24 @@ export default function LoginPage() {
             </div>
 
             <Button type="submit" className="w-full gap-2" disabled={isLoading}>
-              {isLoading ? "Signing in..." : "Sign in"}
+              {isLoading ? "Signing in..." : "Sign in (Demo)"}
               <ArrowRight className="size-4" />
             </Button>
           </form>
 
+          {/* Demo Users Info */}
+          <div className="rounded-lg border border-border bg-secondary/30 p-4">
+            <p className="text-xs font-medium text-foreground mb-2">Demo Users Available:</p>
+            <ul className="text-xs text-muted-foreground space-y-1">
+              <li>priya.kumar@acme.com (Admin)</li>
+              <li>john.smith@globaltech.com (Buyer)</li>
+              <li>sarah.jones@premiumdist.com (Approver)</li>
+            </ul>
+          </div>
+
           <p className="text-center text-xs text-muted-foreground">
-            Don&apos;t have an account?{" "}
-            <Link href="/auth/sign-up" className="text-primary hover:underline">
+            Need access?{" "}
+            <Link href="/admin" className="text-primary hover:underline">
               Contact your administrator
             </Link>
           </p>

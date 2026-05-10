@@ -5,6 +5,7 @@ import "./globals.css"
 
 import { PortalProvider } from "@/lib/store/portal-context"
 import { CartProvider } from "@/lib/store/cart-context"
+import { SessionProvider } from "@/components/auth/session-provider"
 import { SiteHeader } from "@/components/layout/site-header"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { Toaster } from "@/components/ui/sonner"
@@ -37,20 +38,22 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} bg-background`}>
       <body className="min-h-screen font-sans antialiased">
-        <PortalProvider>
-          <CartProvider>
-            <div className="flex min-h-screen flex-col">
-              <SiteHeader />
-              <main className="flex-1">
-                <div className="mx-auto w-full max-w-7xl">
-                  {children}
-                </div>
-              </main>
-              <SiteFooter />
-            </div>
-            <Toaster richColors position="top-right" />
-          </CartProvider>
-        </PortalProvider>
+        <SessionProvider>
+          <PortalProvider>
+            <CartProvider>
+              <div className="flex min-h-screen flex-col">
+                <SiteHeader />
+                <main className="flex-1">
+                  <div className="mx-auto w-full max-w-7xl">
+                    {children}
+                  </div>
+                </main>
+                <SiteFooter />
+              </div>
+              <Toaster richColors position="top-right" />
+            </CartProvider>
+          </PortalProvider>
+        </SessionProvider>
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>

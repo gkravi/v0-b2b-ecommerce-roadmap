@@ -36,9 +36,15 @@ const adminNav = [
   },
   { 
     href: "/admin/roles", 
-    label: "Roles & Permissions", 
+    label: "Roles", 
     icon: Key01,
-    description: "Configure role-based access"
+    description: "Configure roles"
+  },
+  { 
+    href: "/admin/permissions", 
+    label: "Permission Matrix", 
+    icon: Shield01,
+    description: "Detailed permission control"
   },
   { 
     href: "/admin/tools", 
