@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server"
-import { updateSession } from "@/lib/supabase/middleware"
+import { auth } from "@/lib/auth/auth"
 
 // Routes that require authentication
 const protectedRoutes = [
@@ -18,74 +18,48 @@ const adminRoutes = ["/admin"]
 const publicRoutes = [
   "/",
   "/products",
+  "/quick-add",
   "/architecture",
   "/roadmap",
   "/comparison",
   "/portal",
   "/auth",
+  "/api/auth",
 ]
 
-export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+export default auth((req) => {
+  const { pathname } = req.nextUrl
+  const isLoggedIn = !!req.auth
 
-  // Update Supabase session
-  const response = await updateSession(request)
-
-  // Check if route requires authentication
+  // Check route types
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
   const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route))
   const isPublicRoute = publicRoutes.some(route => 
     pathname === route || pathname.startsWith(`${route}/`)
   )
+  const isApiRoute = pathname.startsWith("/api")
 
-  // For now, allow all routes since we're building the auth system
-  // In production, you would check the session and redirect unauthorized users
-  
-  // Example of how to protect routes (uncomment when auth is configured):
-  /*
-  if (isProtectedRoute) {
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return request.cookies.getAll()
-          },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value }) =>
-              request.cookies.set(name, value)
-            )
-          },
-        },
-      }
-    )
-
-    const { data: { user } } = await supabase.auth.getUser()
-
-    if (!user) {
-      const loginUrl = new URL("/auth/login", request.url)
-      loginUrl.searchParams.set("redirect", pathname)
-      return NextResponse.redirect(loginUrl)
-    }
-
-    // Check admin access
-    if (isAdminRoute) {
-      const { data: userData } = await supabase
-        .from("users")
-        .select("is_super_user")
-        .eq("okta_id", user.id)
-        .single()
-
-      if (!userData?.is_super_user) {
-        return NextResponse.redirect(new URL("/", request.url))
-      }
-    }
+  // Allow public routes and API routes
+  if (isPublicRoute || (isApiRoute && !pathname.startsWith("/api/admin"))) {
+    return NextResponse.next()
   }
-  */
 
-  return response
-}
+  // Protected routes require authentication
+  if (isProtectedRoute && !isLoggedIn) {
+    const loginUrl = new URL("/auth/login", req.url)
+    loginUrl.searchParams.set("callbackUrl", pathname)
+    return NextResponse.redirect(loginUrl)
+  }
+
+  // Admin routes require authentication (role check is done in the page)
+  if (isAdminRoute && !isLoggedIn) {
+    const loginUrl = new URL("/auth/login", req.url)
+    loginUrl.searchParams.set("callbackUrl", pathname)
+    return NextResponse.redirect(loginUrl)
+  }
+
+  return NextResponse.next()
+})
 
 export const config = {
   matcher: [

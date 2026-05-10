@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { 
   Users01, 
   Building07, 
@@ -11,9 +12,11 @@ import {
   Tool02,
   FileCheck02,
   BarChart07,
-  ChevronRight
+  ChevronRight,
+  AlertCircle
 } from "@untitledui/icons"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 
 const adminNav = [
   { 
@@ -72,6 +75,36 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
+  const { data: session, status } = useSession()
+
+  // Show loading state
+  if (status === "loading") {
+    return (
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
+    )
+  }
+
+  // Show login prompt if not authenticated (middleware should redirect, but this is a fallback)
+  if (status === "unauthenticated") {
+    return (
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4">
+        <div className="text-center max-w-md">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-destructive/10 text-destructive">
+            <AlertCircle className="size-6" />
+          </div>
+          <h2 className="text-xl font-semibold mb-2">Authentication Required</h2>
+          <p className="text-muted-foreground mb-4">
+            You need to sign in with Okta SSO to access the Admin Portal.
+          </p>
+          <Button asChild>
+            <Link href="/auth/login?callbackUrl=/admin">Sign in with Okta</Link>
+          </Button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)]">
@@ -79,10 +112,19 @@ export default function AdminLayout({
       <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 shrink-0 border-r border-border bg-card lg:block overflow-y-auto">
         <div className="flex flex-col gap-1 p-4">
           {/* Admin Header */}
-          <div className="flex items-center gap-2 px-3 py-2 mb-4">
+          <div className="flex items-center gap-2 px-3 py-2 mb-2">
             <Shield01 className="size-5 text-primary" />
             <span className="text-sm font-semibold text-foreground">Admin Portal</span>
           </div>
+          
+          {/* Session Info */}
+          {session?.user && (
+            <div className="mb-4 px-3 py-2 rounded-lg bg-secondary/50 border border-border">
+              <p className="text-xs font-medium text-foreground truncate">{session.user.name}</p>
+              <p className="text-[10px] text-muted-foreground truncate">{session.user.email}</p>
+              <p className="text-[10px] text-primary mt-1">Authenticated via Okta</p>
+            </div>
+          )}
 
           {/* Navigation */}
           <nav className="flex flex-col gap-1">

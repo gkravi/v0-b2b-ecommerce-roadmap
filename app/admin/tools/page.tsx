@@ -24,7 +24,7 @@ async function getToolsWithAccess() {
       tool_access (
         id,
         status,
-        user:users (
+        user:users!tool_access_user_id_fkey (
           id,
           first_name,
           last_name,
