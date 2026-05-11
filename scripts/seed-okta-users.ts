@@ -17,7 +17,9 @@
  *    npx tsx scripts/seed-okta-users.ts
  */
 
-const OKTA_DOMAIN = process.env.OKTA_DOMAIN || 'trial-1074223.okta.com'
+// Clean up domain - remove -admin suffix if present, ensure no protocol
+let OKTA_DOMAIN = process.env.OKTA_DOMAIN || 'trial-1074223.okta.com'
+OKTA_DOMAIN = OKTA_DOMAIN.replace('https://', '').replace('http://', '').replace('-admin', '').replace(/\/$/, '')
 const OKTA_API_TOKEN = process.env.OKTA_API_TOKEN
 
 if (!OKTA_API_TOKEN) {
@@ -331,6 +333,7 @@ async function assignUserToApp(userId: string, appId: string): Promise<boolean> 
 async function main() {
   console.log('🚀 Starting Okta User Seed Script')
   console.log(`📡 Okta Domain: ${OKTA_DOMAIN}`)
+  console.log(`📡 API Base URL: ${OKTA_BASE_URL}`)
   console.log('')
 
   let successCount = 0
