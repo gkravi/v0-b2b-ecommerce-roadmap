@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useSession, signOut } from "next-auth/react"
 import {
   Building07,
   ChevronDown,
@@ -40,6 +41,7 @@ const navItems: NavItem[] = [
   },
   { href: "/architecture", label: "Architecture" },
   { href: "/roadmap",      label: "Roadmap" },
+  { href: "/admin",        label: "Admin" },
 ]
 
 /* ──────────────────────── SiteHeader ────────────────────────── */
@@ -47,6 +49,11 @@ const navItems: NavItem[] = [
 export function SiteHeader() {
   const { customer, activeSoldTo, setActiveSoldToId, currency, defaultSalesOrg } = usePortal()
   const { totalItems } = useCart()
+  const { data: session } = useSession()
+  
+  const userName = session?.user?.name || customer.name
+  const userEmail = session?.user?.email || customer.email
+  const userInitial = userName.charAt(0).toUpperCase()
 
   /* ── Logo ── */
   const logo = (
@@ -65,11 +72,11 @@ export function SiteHeader() {
   const accountCard = (
     <div className="flex items-center gap-3 rounded-xl border border-border bg-secondary/40 p-3">
       <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-        {customer.name.charAt(0)}
+        {userInitial}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium text-foreground">{customer.name}</p>
-        <p className="truncate text-xs text-muted-foreground">{customer.email}</p>
+        <p className="truncate text-sm font-medium text-foreground">{userName}</p>
+        <p className="truncate text-xs text-muted-foreground">{userEmail}</p>
       </div>
     </div>
   )
@@ -140,16 +147,16 @@ export function SiteHeader() {
             className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground ring-2 ring-background transition-all hover:ring-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             aria-label="Account"
           >
-            {customer.name.charAt(0)}
+            {userInitial}
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-64">
           <DropdownMenuLabel className="pb-2">
             <div className="flex flex-col gap-0.5">
-              <span className="text-sm font-semibold text-foreground">{customer.name}</span>
-              <span className="text-xs text-muted-foreground">{customer.email}</span>
+              <span className="text-sm font-semibold text-foreground">{userName}</span>
+              <span className="text-xs text-muted-foreground">{userEmail}</span>
               <span className="mt-1 text-[10px] uppercase tracking-wider text-muted-foreground">
-                Persona: {customer.persona}
+                {session ? "Authenticated via Okta" : `Persona: ${customer.persona}`}
               </span>
             </div>
           </DropdownMenuLabel>
@@ -165,9 +172,20 @@ export function SiteHeader() {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="flex items-center gap-2 text-sm text-destructive focus:text-destructive">
-            <LogOut01 className="size-4" /> Sign out
-          </DropdownMenuItem>
+          {session ? (
+            <DropdownMenuItem 
+              onClick={() => signOut()}
+              className="flex items-center gap-2 text-sm text-destructive focus:text-destructive cursor-pointer"
+            >
+              <LogOut01 className="size-4" /> Sign out
+            </DropdownMenuItem>
+          ) : (
+            <DropdownMenuItem asChild>
+              <Link href="/auth/login" className="flex items-center gap-2 text-sm">
+                <LogOut01 className="size-4 text-muted-foreground" /> Sign in
+              </Link>
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>
