@@ -1,12 +1,20 @@
 import type { NextAuthConfig } from "next-auth"
 import Okta from "next-auth/providers/okta"
 
+// Debug: Log Okta configuration at startup (values are masked for security)
+console.log("[v0] Okta Config Check:", {
+  clientId: process.env.OKTA_CLIENT_ID ? `${process.env.OKTA_CLIENT_ID.slice(0, 8)}...` : "MISSING",
+  clientSecret: process.env.OKTA_CLIENT_SECRET ? "SET" : "MISSING",
+  issuer: process.env.OKTA_ISSUER || "MISSING",
+})
+
 export const authConfig: NextAuthConfig = {
+  debug: process.env.NODE_ENV === "development",
   providers: [
     Okta({
-      clientId: process.env.OKTA_CLIENT_ID!,
-      clientSecret: process.env.OKTA_CLIENT_SECRET!,
-      issuer: process.env.OKTA_ISSUER!,
+      clientId: process.env.OKTA_CLIENT_ID || "",
+      clientSecret: process.env.OKTA_CLIENT_SECRET || "",
+      issuer: process.env.OKTA_ISSUER || "",
     }),
   ],
   pages: {
